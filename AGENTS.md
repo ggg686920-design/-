@@ -2,15 +2,15 @@
 
 ## Read first
 
-Read `HANDOFF.md`, `docs/SPEC.md`, and `docs/BUILDING.md` before editing. This repository currently preserves an APK and documentation, NOT a buildable Android source project. Never mistake the reference binary for source code. Do not claim requested features exist just because they are listed in the specification.
+Read `HANDOFF.md`, `docs/ARCHITECTURE.md`, and `docs/BUILDING.md` before editing. This is now a buildable, recovered Android project. Work on `app/src/`; do not restart recovery or ask for source as a prerequisite. `docs/RECOVERY.md` distinguishes recovered behavior from newly authored scaffolding. `docs/SPEC.md` remains a backlog, not a list of implemented features.
 
 ## Owner intent and scope
 
 - Evolve the existing Nasma Arabic/English Android keyboard, not an unrelated web app or replacement with a new identity.
-- Prefer native Kotlin and `InputMethodService`; the requested future minimum is API 24, not a statement about the archived APK.
+- Prefer Kotlin for new development and `InputMethodService`. Retain the recovered Java baseline unless a focused migration is justified. Current minSdk is 23 to preserve original compatibility; discuss a future move to 24.
 - Preserve the existing app name, applicationId, user data, signing continuity, and working behavior unless the owner explicitly approves a change.
 - The owner prefers concise Arabic explanations, low AI cost, and strong fundamentals over many unfinished features. Implement one small, verifiable improvement at a time.
-- Recover the original Android Studio project first if available. Do not initiate decompilation, broad rewrites, dependency migrations, or a new applicationId without agreeing on the approach.
+- The owner explicitly authorized this one-time APK recovery and completion on 2026-09-14. It is complete enough to build and test. Do not redo it, broadly rewrite the app, or change its applicationId without an explicit reason and approval.
 
 ## Safety
 
@@ -25,10 +25,11 @@ Read `HANDOFF.md`, `docs/SPEC.md`, and `docs/BUILDING.md` before editing. This r
 
 - Inspect the working tree, branch, history, and relevant source before editing. Preserve unrelated user changes. Never force-push or rewrite history without permission.
 - Reuse existing code and patterns. Do not add placeholder buttons, fake AI, fabricated test results, or fabricated build instructions.
-- Once source exists, keep dependency/tool versions reproducible and the Gradle Wrapper tracked. Do not add Android CI before an actual build command succeeds.
+- Keep dependency/tool versions pinned and the Gradle Wrapper tracked. Run `bash ./gradlew :app:assembleDebug :app:testDebugUnitTest :app:lintDebug` (Windows: `gradlew.bat`). Maintain the Android CI workflow and archive integrity check separately.
 - Do not perform builds or model calls per keystroke; keep work off the IME main thread where appropriate. Cancel obsolete asynchronous suggestions and requests when editor context changes.
 - Add focused regression tests and follow `docs/TESTING.md`. Distinguish static checks, JVM tests, device tests, and manual checks.
 - Keep `artifacts/original/nasma-keyboard.apk` byte-for-byte unchanged. Its checksum is evidence of the baseline, not a new release.
+- `EditorPolicy.permitsPersonalization` is a tested gate for future features, not an existing suggestion/AI engine. Every future data-processing entry point must actually enforce it and handle editor changes; do not rely on the helper's mere existence.
 
 ## Required handoff after each task
 

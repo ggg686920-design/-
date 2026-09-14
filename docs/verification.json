@@ -1,0 +1,31 @@
+{
+  "date": "2026-09-14",
+  "milestone": "1.0.1-recovered",
+  "application_id": "app.nasma.keyboard",
+  "original_apk_sha256": "b801b24a0694414830f47cfde3170a04672c361ab2ddcba2c70c1d0b5dd25895",
+  "unit_tests": {
+    "tests": 13,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "lint": "No issues found",
+  "builds": {
+    "debug": {
+      "file": "app-debug.apk",
+      "size_bytes": 855649,
+      "sha256": "e137265cbbc3c980195829195445b7a4734e7e72f5747678917791c431d24e4f"
+    },
+    "release_unsigned": {
+      "file": "app-release-unsigned.apk",
+      "size_bytes": 647300,
+      "sha256": "fb877319a3ba16300dff0238cac44181a7f1e88314f12278c764d8fbc815e85d"
+    }
+  },
+  "original_signer_sha256": "97a4f87dd77a86869b23b39ac822ca5eb3f60f7223aae26ecb2ded30eb22cdbc",
+  "local_debug_signer_sha256": "998716eebde2f8fe00eb721495d18b0b79f1264ab00b8ad6228de1aa217d94e6",
+  "layout_golden_sha256": "f16c823372340f493c6a58ed32d31a01a46d885e902491c07ee46d2183b56a7f",
+  "android_runtime_tests": "NOT RUN",
+  "release_signing": "UNSIGNED; original private key unavailable",
+  "host_notes": "ARM64/NFS build used temporary local project cache and QEMU AAPT2 override; see docs/BUILDING.md"
+}

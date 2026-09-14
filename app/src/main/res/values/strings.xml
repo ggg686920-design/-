@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">نسمة كيبورد</string>
+    <string name="languages">العربية / English</string>
+    <string name="brand_mark">ن</string>
+    <string name="tagline">كتابة خفيفة، وخصوصية أكثر.</string>
+    <string name="status_ready">نسمة جاهز للكتابة</string>
+    <string name="status_enabled">مفعّل. اختر نسمة من الخطوة الثانية.</string>
+    <string name="status_start">خطوتان ونبدأ الكتابة</string>
+    <string name="enable">1. تفعيل الكيبورد</string>
+    <string name="enabled">1. مفعّل - إدارة الكيبوردات</string>
+    <string name="select">2. اختيار نسمة للكتابة</string>
+    <string name="selected">2. نسمة هو الكيبورد الحالي</string>
+    <string name="enable_first">فعّل نسمة كيبورد أولاً من الخطوة الأولى</string>
+    <string name="try_title">جرّبه هنا</string>
+    <string name="try_hint">اكتب بالعربي أو English…</string>
+    <string name="help_title">بسيط من أول لمسة</string>
+    <string name="help_body">EN / ع لتبديل اللغة\nأَ للهمزات والتشكيل والحروف الإضافية\n?123 للأرقام والرموز\nاضغط ⇧ مرتين لتثبيت الحروف الكبيرة\nاضغط مطولاً على الحذف للحذف المتواصل\nاضغط مطولاً على المسافة لتغيير الكيبورد</string>
+    <string name="privacy_title">كلامك يبقى عندك</string>
+    <string name="privacy_body">بدون إنترنت، بدون إعلانات، وبدون تسجيل لما تكتبه. يُحفظ اختيار اللغة فقط على جهازك. لا يوجد تصحيح تلقائي أو اقتراحات في هذه النسخة.</string>
+    <string name="trust_notice">تنبيه أندرويد عند تفعيل أي كيبورد طبيعي: الكيبورد يتعامل مع النص الذي تكتبه. فعّل فقط كيبورداً تثق بمصدره.</string>
+    <string name="version_label">نسمة %1$s / Android 6.0+\nنسخة تطوير مستعادة، وليست تحديثاً موقّعاً بالمفتاح الأصلي.</string>
+    <string name="delete_description">حذف / Delete</string>
+    <string name="space_description">مسافة / Space</string>
+    <string name="language_description">تبديل اللغة / Switch language</string>
+</resources>

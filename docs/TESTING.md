@@ -1,6 +1,14 @@
 # Test Matrix
 
-All Android runtime checks below are **not run**. Record results with date, device/API, build commit, exact steps, and pass/fail. Never replace this evidence with an archive inspection result.
+All Android runtime checks below are **not run**. The recovered project has passed debug/unsigned-release builds, 13 JVM tests (8 editor-policy and 5 layout tests), and Android lint with zero warnings/errors. Record future runtime results with date, device/API, build commit, exact steps, and pass/fail. Never replace this evidence with build or archive-inspection results.
+
+## Source checks: executable now
+
+```sh
+bash ./gradlew :app:assembleDebug :app:testDebugUnitTest :app:lintDebug :app:assembleRelease
+```
+
+Use `gradlew.bat` on Windows. SDK setup and special-host flags are in `BUILDING.md`. See `RECOVERY.md` for the independent 24-state layout comparison and signing checks. No connected Android tests have run.
 
 ## Reference archive: executable now
 

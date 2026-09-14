@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.0.1-recovered (versionCode 2) - 2026-09-14
+
+- Restore a buildable native project from the owner's APK while preserving package identity, core layouts and visual design.
+- Clean recovered Java IME/setup/layout code; add Kotlin field policy, resource-based setup text and explicit backup/transfer restrictions.
+- Add pinned Gradle/Android/Kotlin configuration, official Wrapper, 13 passing JVM tests and a build/test/lint CI workflow.
+- Verify all 24 layout states against recovered original data, debug/unsigned-release builds, zero-warning lint and APK signatures.
+- Signing identity is not the original; debug builds are test-only and release is unsigned. Android runtime tests remain pending; no suggestions/AI/GIF/clipboard features are claimed.
+
 ## 2026-09-14 - Project handoff baseline
 
 - Preserve the original Nasma APK and record static metadata and its checksum.

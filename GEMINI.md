@@ -1,3 +1,3 @@
 # Nasma Project
 
-Read and follow `AGENTS.md`, then `HANDOFF.md`. They are the canonical project instructions and current status. The repository currently contains an archived APK and documentation, not buildable Android source. Do not assume requested features have been implemented.
+Read and follow `AGENTS.md`, then `HANDOFF.md`. Work on the buildable recovered Android source in `app/src/`. Do not redo APK recovery or ask for missing source as a prerequisite. Build/test commands and signing limits are in `docs/BUILDING.md`; requested advanced features remain a backlog.

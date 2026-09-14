@@ -1,6 +1,6 @@
 # Privacy Design Checklist - Not a Published Policy
 
-This file specifies intended development safeguards. The original binary has not undergone a full security/runtime audit, and this text is not a verified statement of its behavior or a Play-ready privacy policy.
+This file specifies intended development safeguards. The recovered source currently stores only language preference, has no text-processing/network sinks, and explicitly excludes app data from cloud/device transfer. These are source-level observations, not a full security/runtime audit or a Play-ready privacy policy.
 
 ## Local by default
 
@@ -8,7 +8,7 @@ This file specifies intended development safeguards. The original binary has not
 - Never persist passwords, sensitive-field contents, raw keystroke histories, crash-log text contents, or hidden analytics.
 - Respect no-personalized-learning/incognito requests and conservative handling of unknown editor contexts.
 - Do not include personal text in Android backup exports, debug logs, screenshots, issue reports or example datasets.
-- No network permission is declared in the archived manifest inspection. This observation is narrower than proof of runtime privacy; re-review the actual manifest and code after source recovery.
+- No network permission is declared in the archived or reconstructed manifest. There are no networking, advertising, clipboard, learning or suggestion features in the recovered baseline. Re-review each future feature and validate behavior on devices.
 
 ## Cloud and GIF require separate review
 

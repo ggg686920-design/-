@@ -1,3 +1,3 @@
 # Nasma Project
 
-Follow root `AGENTS.md` and read `HANDOFF.md` before changing this project. The repository currently contains an archived APK and documentation, not buildable Android source. Keep the app identity stable, protect sensitive input, and report only verified work. Keep project-specific instructions in `AGENTS.md`, not duplicated here.
+Follow root `AGENTS.md` and read `HANDOFF.md` before changing this project. This is a buildable recovered Android project; work on `app/src/` rather than repeating recovery. Keep app identity stable, protect sensitive input, and report only verified work. Build/test instructions are in `docs/BUILDING.md`. Keep canonical project rules in `AGENTS.md`.

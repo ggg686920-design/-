@@ -1,33 +1,39 @@
 # Current Handoff
 
-Updated: 2026-09-14
+Updated: 2026-09-14. Recovery milestone: `1.0.1-recovered` / versionCode `2`.
 
-## Actual state
+## Ready to continue
 
-- Owner's goal: continue developing the same Nasma native Arabic/English keyboard with different AI tools, without losing source or restarting each time.
-- Available: the original user-supplied `nasma-keyboard.apk`, preserved at `artifacts/original/nasma-keyboard.apk`, plus its static inspection report.
-- Missing: original Kotlin/Java source, Android Studio/Gradle project, dependency lock/version information, private signing key, and a verified build recipe.
-- No application feature changes were made. No new APK was built. No Android install, emulator, typing, accessibility, or performance test has been performed.
-- A separate replacement app approach was stopped at the owner's request. Do not resume it without explicit approval.
-- This repository was created empty by the owner. This handoff package establishes its initial project record, not an app implementation.
+- This repository now contains a buildable Android Studio/Gradle project. **Do not ask for source or repeat APK recovery. Start in `app/src/`.**
+- The owner authorized recovering the same app from APK and filling missing build/source infrastructure. Identity remains `app.nasma.keyboard`; minSdk 23, target/compile SDK 35.
+- Recovered and cleaned: `NasmaIme.java`, `MainActivity.java`, `KeyLayout.java`, icon/theme/method resources. Added: Gradle project/Wrapper, extracted UI strings, Kotlin `EditorPolicy`, privacy backup rules, tests and CI.
+- Original APK remains unchanged under `artifacts/original/`. Recovered source is not claimed byte-identical to the creator's lost source. Details: `docs/RECOVERY.md`.
 
-## Evidence and checks
+## Verified locally
 
-- `artifacts/original/inspection.json` records the APK checksum, size, manifest declarations, and Nasma DEX class descriptors.
-- Archive CRC and binary-XML inspection pass for the preserved file. These checks do not verify a valid APK signing certificate or runtime behavior.
-- `tools/inspect_apk.py` uses only Python's standard library. The archive-check workflow must not be presented as Android build/test CI.
-- Requested features are documented in `docs/SPEC.md`, not marked implemented. No cloud/API service is configured.
+- JDK 17, Gradle 8.11.1, AGP 8.9.2, Kotlin 2.1.20, SDK/build-tools 35.
+- `:app:assembleDebug`, `:app:assembleRelease`, `:app:testDebugUnitTest`, and `:app:lintDebug` pass. Release output is unsigned by design. Lint: no warnings/errors; 13 JVM tests pass.
+- All 24 layout combinations and seven key weights match the decompiled original. The original and rebuilt debug APK signatures were checked with SDK `apksigner`.
+- Host is ARM64 with a network filesystem; local build needed an external project-cache directory and a QEMU AAPT2 wrapper. These host-only flags are documented in `docs/BUILDING.md`, not embedded in project configuration. CI uses ordinary x86-64 tooling.
+- **Not run:** Android installation, live IME typing, gesture timing, rotation, TalkBack, performance/battery tests, and upgrade testing. Build success is not runtime validation.
 
-## Next action
+## Current behavior and limitations
 
-1. Obtain the original Android Studio source ZIP from the tool/session that built Nasma, excluding secrets. Preserve this APK separately as the baseline.
-2. If the source cannot be obtained, agree with the owner on a one-time recovery or reconstruction, and explain the signing/update implications before changing the app.
-3. Once source exists: inventory its real architecture, compare package/version/signing details, document its actual build command, build a baseline, and run Android smoke tests before implementing features.
-4. Implement the first incomplete core feature with regression coverage; update this file after verification.
+- Arabic/English, symbols, extra Arabic characters/diacritics, Shift/Caps, editor-action Enter, repeat-delete, language preference and system light/dark keyboard colors are reconstructed.
+- No suggestions, autocorrect, learned dictionary, emoji/GIF browser, clipboard manager, glide typing, custom themes, cloud AI or analytics. No INTERNET permission. Only the language preference is persisted.
+- Number/phone/date fields currently open the existing symbol page, not a dedicated optimized number pad. Arabic subtype metadata retains the original single combined Arabic/ASCII-capable subtype.
+- `EditorPolicy.permitsPersonalization` is tested but reserved for future feature entry points. There are currently no suggestion, learning or network sinks to guard.
+- The app keeps the original compact key sizes; accessibility and mixed-text deletion need Android-device review. Do not claim Gboard parity.
 
-## Continuity
+## Signing is not a development blocker
 
-- Confirm `applicationId` from the manifest/build configuration, not from Kotlin/Java package names alone.
-- Keep signing secrets outside Git. A new debug/release key does not replace the original signer for updates.
-- Never delete an installed user's app or data as an automatic troubleshooting step.
-- Read `AGENTS.md` for privacy rules, small-scope work, and the mandatory AI handoff.
+- The original private signing key is still unavailable and cannot be recovered from APK. Do not invent it, commit a substitute, or silently change applicationId.
+- Debug builds use the local/CI Android debug key; certificates vary across environments. They do not update the original installed APK in place. Use a test device/profile with no conflicting installation; do not uninstall the owner's copy automatically.
+- Release builds remain unsigned until the owner configures signing securely. Source development, unit tests, lint and builds do not require that original key.
+
+## Next small task
+
+1. Read `AGENTS.md`, `docs/ARCHITECTURE.md` and `docs/BUILDING.md`; run the standard build/tests unchanged.
+2. Perform the Android core/sensitive-field smoke matrix in `docs/TESTING.md`, record device/API and real outcomes, and fix the first reproducible issue.
+3. Prioritize a dedicated number/phone layout or local suggestions after runtime baseline validation; follow `docs/ROADMAP.md`, one focused change at a time.
+4. Update this file and `CHANGELOG.md`, preserve source, and provide actual test results with every handoff.

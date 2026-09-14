@@ -1,10 +1,10 @@
 # Roadmap
 
-All app-development phases below are pending. Work in small, reviewable changes to control cost; do not start all phases at once.
+Recovery and build infrastructure are implemented; runtime baseline validation remains pending. Work in small, reviewable changes to control cost; do not start all phases at once.
 
 | Stage | Deliverable | Exit evidence |
 | --- | --- | --- |
-| 0: recover baseline | Obtain source, original build configuration, dependencies and signing plan; compare with archived APK | Reproducible baseline build; manifest/version comparison; installation and typing smoke-test report |
+| 0: recovered baseline | Source, Gradle/Wrapper, pinned dependencies, 13 tests and builds are ready; complete Android smoke tests | Build/JVM/lint verified; installation, typing and signing-compatible upgrade remain pending |
 | 1: reliable core | Arabic/English, symbols, field types/actions, Shift/Caps, safe delete/composition, RTL/LTR, sensitive-field policy | Core and sensitive-field matrix passes on Android; no loss of existing behavior |
 | 2: local suggestions | Completion, conservative correction/undo, local personal dictionary and deletion | Arabic/English unit/device tests; no learning in sensitive/incognito fields; measured latency |
 | 3: customization | Themes, size, fonts, sounds, haptics, accessible previews | Settings survive restart; readable layouts in portrait/landscape; TalkBack smoke test |
@@ -15,7 +15,7 @@ All app-development phases below are pending. Work in small, reviewable changes 
 
 ## First useful AI task
 
-Import and inspect the original source, then build it unchanged. Report actual architecture and current gaps before proposing a minimal first core improvement. If the source remains missing, ask the owner to choose a recovery/reconstruction approach; do not disguise a rewrite as an update.
+Use the recovered source already in `app/src/`, run the documented build/tests, and perform Android smoke tests. Then implement a focused core fix (for example, a field-specific number/phone pad). Do not ask the owner for missing source or redo the completed recovery. Original-key signing is a release/upgrade limitation, not a source-development blocker.
 
 ## Completion rule
 

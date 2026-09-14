@@ -1,45 +1,55 @@
-# Source, Builds, and Signing
+# Build and Signing
 
-## Current status
+## Standard setup
 
-There is no Android source or Gradle project here yet. `./gradlew assembleDebug` is NOT currently a valid command in this repository. Do not install a toolchain or guess dependency versions merely to create the appearance of a working project.
+Open the repository root in a compatible Android Studio, or install JDK 17 and Android SDK packages `platforms;android-35` and `build-tools;35.0.0`. Configure `ANDROID_HOME` or an untracked `local.properties` with your SDK path. Accept the SDK licenses as required. Dependency downloads require internet the first time; the app itself has no INTERNET permission or API-key requirement.
 
-The preserved manifest declares package `app.nasma.keyboard`, version `1.0` / code `1`, minSdk `23`, and targetSdk `35`. These are static declarations, not proof of runtime compatibility or current Play eligibility. See `artifacts/original/inspection.json`.
+Pinned project versions: Gradle 8.11.1, Android Gradle Plugin 8.9.2, Kotlin 2.1.20, JUnit 4.13.2, compile/target SDK 35, build-tools 35.0.0, minSdk 23, JVM toolchain 17. The module is `:app`.
 
-## Recover once
+```sh
+bash ./gradlew --no-daemon :app:assembleDebug :app:testDebugUnitTest :app:lintDebug
+bash ./gradlew --no-daemon :app:assembleRelease
+```
 
-Ask the original creator for:
+Windows: replace `bash ./gradlew` with `gradlew.bat`. Using `bash` avoids executable-mode differences in downloaded ZIPs and API-created Git files. These are the real module/tasks, not placeholders.
 
-- Kotlin/Java source, complete resources, manifest, method XML, assets, and any tests.
-- Root/module Gradle files, `settings.gradle` or `.kts`, safe `gradle.properties`, version catalogs/lock files if used.
-- Gradle Wrapper scripts, JAR, and properties with an official distribution URL and checksum where supported.
-- Exact JDK, Gradle, Android Gradle Plugin, Kotlin, compile/min/target SDK, and dependency versions.
-- Instructions and provenance/licenses for dictionaries, fonts, images, and models.
+## Outputs
 
-Do not commit `local.properties`, signing configuration containing secrets, private keys, or user data. Inspect received wrapper/build scripts before executing them. Do not overwrite existing documentation or the preserved APK during import.
+- Debug APK: `app/build/outputs/apk/debug/app-debug.apk`, debug-signed for testing.
+- Release APK: `app/build/outputs/apk/release/app-release-unsigned.apk`, intentionally unsigned and not installable until signed.
+- Unit-test report: `app/build/reports/tests/testDebugUnitTest/index.html`.
+- Lint results: `app/build/reports/lint-results-debug.html` / `.txt` when a report is emitted. Lint warnings are treated as errors.
+- GitHub Actions' Android build uploads APKs and reports for seven days. Download them from a successful run's Artifacts section while signed in; rebuild after expiration. They are not production releases.
 
-If source is unavailable, agree explicitly on a recovery/reconstruction effort. Decompiled source is not guaranteed equivalent or compilable. Record tool versions, recovered-vs-authored files, behavior differences, and unresolved resources. Never claim to recover the original private key from the APK.
+## Wrapper provenance
 
-## Establish a verified build
+Wrapper scripts/JAR are from Gradle's official `v8.11.1` tag. Distribution SHA-256 is pinned in `gradle/wrapper/gradle-wrapper.properties`.
 
-After the real source arrives, replace this section with commands that actually succeed. Record prerequisites, the exact module/task, test commands, produced APK path, checksum, and signer fingerprint. Do not invent module names. Run a baseline build before introducing feature changes.
+- Wrapper JAR SHA-256: `2db75c40782f5e8ba1fc278a5574bab070adccb2d21ca5a6e5ed840888448046`.
+- Gradle ZIP SHA-256: `f397b287023acdba1e9f6fc5ea72d22dd63669d59ed4a289a29b1a76eee151c6`.
+- Keep the Wrapper JAR tracked; never blanket-ignore all JAR files. Review wrapper/build changes before executing them.
 
-Then add Android CI using the same commands. Until then the existing workflow checks only reference-APK integrity. Keep dependency versions pinned, avoid unreviewed upgrades, and include the Wrapper in source exports. Avoid committing generated `build/` directories and caches.
+## Special hosts, not project dependencies
 
-## Keep future APKs installable as updates
+The recovery worker used Linux ARM64 on NFS. Standard Google Linux AAPT2 binaries are x86-64; Debian's older native AAPT2 lacked required AGP flags. We ran SDK 35 AAPT2 using QEMU's `qemu-x86_64` and installed its x86 runtime libraries. Gradle's project cache was placed on local temporary storage because NFS locking failed.
 
-- Preserve `applicationId` and use the original signing identity. Increase `versionCode` for releases.
-- The original APK includes signature-related files, but its signer has not yet been cryptographically verified here. Use Android build tools' `apksigner verify --verbose --print-certs` when available to inspect public certificate information.
-- Possession of a signing certificate or signed APK does not provide the private signing key.
-- The owner must retain the release keystore and passwords securely outside the repository. Do not ask them to paste secrets in chat. Prefer signing locally or via a deliberately configured secrets-backed release process.
-- Debug keys differ across machines/tools. A newly generated debug key usually cannot update another tool's installed debug APK. Do not silently replace it and recommend uninstalling as if nothing changed.
-- If the original key is lost, explain update limitations and potential data loss before installing an independently signed rebuild. Do not change package name without approval.
-- For Google Play App Signing, distinguish app signing key from upload key; use Play's supported procedures rather than assuming local sideload signing and Play signing are interchangeable.
+The verified local command was:
 
-## Release handoff checklist
+```sh
+ANDROID_HOME=/tmp/bcode/android-sdk GRADLE_USER_HOME=/tmp/bcode/gradle-home \
+  bash ./gradlew --no-daemon --project-cache-dir /tmp/bcode/nasma-project-cache \
+  -Pandroid.aapt2FromMavenOverride=/tmp/bcode/aapt2 \
+  :app:assembleDebug :app:testDebugUnitTest :app:lintDebug :app:assembleRelease
+```
 
-- Source commit/tag, matching source ZIP, change log, and tested APK/AAB where actually built.
-- Exact build commands, supported Android versions, test results and known limitations.
-- SHA-256 and public signing certificate fingerprint, with a clear install/upgrade path.
-- No private keys, tokens, copied user text, dictionaries learned from real users, or clipboard history in source, APK assets, screenshots, or logs.
-- Do not mark a build "production ready" before device verification and privacy/release review.
+Those paths are ephemeral host setup, NOT included tools. The local executable wrapper simply invoked `qemu-x86_64 <SDK>/build-tools/35.0.0/aapt2 "$@"`. Recreate suitable paths only if your ARM64/NFS environment needs it. Ordinary x86-64 CI/desktop environments should use the standard commands above, without these overrides. Do not downgrade AGP or commit machine paths to work around an unsupported host.
+
+## Signing and safe updates
+
+- Stable applicationId: `app.nasma.keyboard`. Current versionCode `2`, versionName `1.0.1-recovered`. Future releases should increase versionCode.
+- Original signer certificate SHA-256: `97a4f87dd77a86869b23b39ac822ca5eb3f60f7223aae26ecb2ded30eb22cdbc`. SDK 35 `apksigner` verified the archived APK's v1/v2/v3 signatures.
+- The original private key is unavailable. Certificate/public-key information is not a private signing key. Recovery does not make the new APK an in-place update to the original.
+- Debug keys are for development and differ between workers/CI runs. Do not promise cross-environment debug updates or auto-delete installed app data to resolve a signing conflict.
+- Keep release keys and passwords outside Git, logs and chat. The owner must configure signing separately through a secure local/CI process; release remains unsigned until then. Do not ship an embedded signing secret or invent a fake `signing.properties`.
+- When signing is configured, use `apksigner verify --verbose --print-certs` to confirm the public certificate, then test the actual upgrade path. For Play App Signing distinguish the app signing key from the upload key.
+- APK/AAB signing, Play policy approval, published privacy policy and on-device validation remain release tasks, not prerequisites for source development.
