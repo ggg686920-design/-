@@ -2,6 +2,9 @@ package app.nasma.keyboard
 
 import android.content.Context
 import android.content.ContextWrapper
+import android.os.Handler
+import android.os.SystemClock
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
@@ -45,5 +48,20 @@ class ImeViewTest {
             keys.single { it.tag == transition }.performClick()
         }
         assertTrue(buttons(root).all { !it.isHapticFeedbackEnabled && !it.isSoundEffectsEnabled })
+    }
+
+    @Test fun unbindCancelsPendingDeleteAndDropsHeldButton() = withView { ime, root ->
+        val delete = buttons(root).single { it.tag == KeyLayout.BACK }
+        val time = SystemClock.uptimeMillis()
+        val event = MotionEvent.obtain(time, time, MotionEvent.ACTION_DOWN, 5f, 5f, 0)
+        try { delete.dispatchTouchEvent(event) } finally { event.recycle() }
+        val handler = NasmaIme::class.java.getDeclaredField("handler")
+            .apply { isAccessible = true }.get(ime) as Handler
+        val held = NasmaIme::class.java.getDeclaredField("heldDelete").apply { isAccessible = true }
+        assertTrue(handler.hasMessages(0))
+        assertSame(delete, held.get(ime))
+        ime.onUnbindInput()
+        assertFalse("Unbound service retained pending repeat callback", handler.hasMessages(0))
+        assertNull("Unbound service retained held button", held.get(ime))
     }
 }

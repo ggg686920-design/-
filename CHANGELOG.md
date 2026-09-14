@@ -2,6 +2,7 @@
 
 ## Unreleased - Stage-one verification (2026-09-14)
 
+- Cancel queued repeat deletion and clear held-key state when the IME's client input binding is removed.
 - Remove the recovered key-tap vibration request and disable framework long-press haptics. Keyboard keys stay silent without adding settings or features.
 - Add a separate test APK and real-IME emulator workflow for API 23/35: bilingual typing, Shift/Caps, symbols/diacritics, deletion, field routing/actions, sensitive fields, reopening and rotation. Runtime results pending.
 - Keep the deliberately pinned target SDK 35 age advisory informational so CI can validate the recovered baseline without an untested SDK migration. Other lint warnings still fail the build.

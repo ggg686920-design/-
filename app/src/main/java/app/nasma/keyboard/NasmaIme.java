@@ -231,5 +231,6 @@ public final class NasmaIme extends InputMethodService {
     @Override public boolean onEvaluateFullscreenMode() { return false; }
     @Override public void onFinishInput() { stopRepeat(); repeated = false; super.onFinishInput(); }
     @Override public void onFinishInputView(boolean finishingInput) { stopRepeat(); repeated = false; super.onFinishInputView(finishingInput); }
+    @Override public void onUnbindInput() { stopRepeat(); repeated = false; super.onUnbindInput(); }
     @Override public void onDestroy() { stopRepeat(); super.onDestroy(); }
 }
