@@ -2,6 +2,7 @@
 
 ## Unreleased - Stage-one verification (2026-09-14)
 
+- Label the existing Previous editor action correctly in Arabic/English instead of displaying a misleading newline symbol.
 - Stop repeat-delete when its initiating finger lifts during a two-finger press; suppress an unintended final release deletion.
 - Cancel queued repeat deletion and clear held-key state when the IME's client input binding is removed.
 - Remove the recovered key-tap vibration request and disable framework long-press haptics. Keyboard keys stay silent without adding settings or features.

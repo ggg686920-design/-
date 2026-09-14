@@ -150,6 +150,7 @@ public final class NasmaIme extends InputMethodService {
                     case EditorInfo.IME_ACTION_SEARCH: return arabic ? "بحث" : "Search";
                     case EditorInfo.IME_ACTION_SEND: return arabic ? "إرسال" : "Send";
                     case EditorInfo.IME_ACTION_NEXT: return arabic ? "التالي" : "Next";
+                    case EditorInfo.IME_ACTION_PREVIOUS: return arabic ? "السابق" : "Previous";
                     case EditorInfo.IME_ACTION_DONE: return arabic ? "تم" : "Done";
                     default: return "↵";
                 }

@@ -62,6 +62,7 @@ class ImeSmokeTest {
         scenario.onActivity { activity ->
             editor.inputType = type
             editor.imeOptions = options
+            editor.setImeActionLabel(null, 0)
             editor.setText("")
             editor.requestFocus()
             val manager = activity.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
@@ -140,6 +141,7 @@ class ImeSmokeTest {
         }
         val actions = listOf(EditorInfo.IME_ACTION_SEARCH to "بحث", EditorInfo.IME_ACTION_SEND to "إرسال",
             EditorInfo.IME_ACTION_GO to "اذهب", EditorInfo.IME_ACTION_NEXT to "التالي",
+            EditorInfo.IME_ACTION_PREVIOUS to "السابق",
             EditorInfo.IME_ACTION_DONE to "تم")
         for ((id, label) in actions) {
             action.set(-1)
@@ -148,6 +150,12 @@ class ImeSmokeTest {
             assertEquals(id, action.get())
             expect("")
         }
+        field(InputType.TYPE_CLASS_TEXT)
+        scenario.onActivity { activity ->
+            editor.setImeActionLabel("Custom", 42)
+            (activity.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).restartInput(editor)
+        }
+        key("Custom"); assertEquals(42, action.get()); expect("")
         field(InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_MULTI_LINE,
             EditorInfo.IME_ACTION_SEARCH or EditorInfo.IME_FLAG_NO_ENTER_ACTION)
         key("س"); key("↵"); expect("س\n")
