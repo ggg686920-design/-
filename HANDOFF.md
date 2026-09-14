@@ -11,6 +11,7 @@ Updated: 2026-09-14. Recovery milestone: `1.0.1-recovered` / versionCode `2`.
 
 ## Verified locally
 
+- First emulator run `34813419597`: API 35 passed the repeated reopen/recreate/rotation test but four tests missed IME visibility; API 23 failed IME activation before its five tests. This is not a passing runtime baseline. Harden test window-focus/activation synchronization and retain screenshots/diagnostics on failure before attributing failures to production code.
 - Added isolated Android instrumentation smoke tests and an API 23/35 emulator workflow. Test APK compilation and build/JVM/lint checks pass; device results are pending, not claimed from compilation.
 - Stage-one recheck (2026-09-14): debug build, 13 JVM tests and lint pass on ARM64 with the documented host flags. Standard invocation hits the documented NFS locking limitation.
 - Existing GitHub run `34809010121` failed only on `OldTargetApi`. That advisory is now informational (not hidden); all other lint warnings remain errors. SDK levels are unchanged. New CI/runtime results are pending.

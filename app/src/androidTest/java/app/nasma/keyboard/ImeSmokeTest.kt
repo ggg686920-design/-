@@ -2,6 +2,7 @@ package app.nasma.keyboard
 
 import android.content.Context
 import android.content.pm.PackageManager
+import android.graphics.Rect
 import android.os.SystemClock
 import android.text.InputType
 import android.view.View
@@ -21,7 +22,9 @@ import java.util.concurrent.atomic.AtomicInteger
 import org.junit.After
 import org.junit.Assert.*
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
+import org.junit.rules.TestName
 import org.junit.runner.RunWith
 
 /** Real IME windows and InputConnections; run only on a disposable test device. */
@@ -33,6 +36,7 @@ class ImeSmokeTest {
     private lateinit var scenario: ActivityScenario<MainActivity>
     private lateinit var editor: EditText
     private val action = AtomicInteger(-1)
+    @get:Rule val testName = TestName()
 
     @Before fun open() {
         context.getSharedPreferences("settings", Context.MODE_PRIVATE).edit()
@@ -42,12 +46,25 @@ class ImeSmokeTest {
             editor = requireNotNull(findEditor(activity.window.decorView))
             editor.setOnEditorActionListener { _, id, _ -> action.set(id); true }
         }
+        val deadline = SystemClock.uptimeMillis() + 5000
+        var focused = false
+        while (!focused && SystemClock.uptimeMillis() < deadline) {
+            scenario.onActivity { focused = it.hasWindowFocus() }
+            if (!focused) SystemClock.sleep(30)
+        }
+        assertTrue("Test activity never received window focus", focused)
         field(InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_MULTI_LINE,
             EditorInfo.IME_FLAG_NO_ENTER_ACTION)
     }
 
     @After fun close() {
-        if (::scenario.isInitialized) scenario.close()
+        try {
+            device.takeScreenshot(File(context.getExternalFilesDir(null), "${testName.methodName}.png"))
+        } finally {
+            device.setOrientationNatural()
+            device.unfreezeRotation()
+            if (::scenario.isInitialized) scenario.close()
+        }
     }
 
     private fun findEditor(view: View): EditText? {
@@ -65,10 +82,12 @@ class ImeSmokeTest {
             editor.setImeActionLabel(null, 0)
             editor.setText("")
             editor.requestFocus()
+            editor.requestRectangleOnScreen(Rect(0, 0, editor.width, editor.height), true)
             val manager = activity.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             manager.restartInput(editor)
             manager.showSoftInput(editor, InputMethodManager.SHOW_IMPLICIT)
         }
+        device.wait(Until.findObject(By.pkg(context.packageName).clazz(EditText::class.java)), 5000)?.click()
         assertTrue("Nasma IME window did not appear", device.wait(Until.hasObject(
             By.pkg(context.packageName).desc(context.getString(R.string.delete_description))), 5000))
         device.waitForIdle()

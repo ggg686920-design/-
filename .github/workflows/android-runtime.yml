@@ -24,6 +24,7 @@ jobs:
         with:
           distribution: temurin
           java-version: '17'
+          cache: gradle
       - name: Enable disposable runner KVM access
         run: sudo chmod 666 /dev/kvm
       - name: Build app and isolated test APK
@@ -36,13 +37,7 @@ jobs:
           target: google_apis
           disable-animations: true
           emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim
-          script: |
-            adb install -r app/build/outputs/apk/debug/app-debug.apk
-            adb shell ime list -s
-            adb shell ime enable app.nasma.keyboard/.NasmaIme
-            adb shell ime set app.nasma.keyboard/.NasmaIme
-            bash ./gradlew --no-daemon :app:connectedDebugAndroidTest
-            adb pull /sdcard/Android/data/app.nasma.keyboard/files/ app/build/runtime-screenshots/
+          script: bash tools/run-ime-smoke.sh
       - name: Upload runtime evidence
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
@@ -52,4 +47,5 @@ jobs:
             app/build/reports/androidTests/
             app/build/outputs/androidTest-results/
             app/build/runtime-screenshots/
+            app/build/runtime-diagnostics/
           retention-days: 7
