@@ -1,6 +1,8 @@
 # Test Matrix
 
-All Android runtime checks below are **not run**. The recovered project has passed debug/unsigned-release builds, 13 JVM tests (8 editor-policy and 5 layout tests), and Android lint with zero warnings/errors. Record future runtime results with date, device/API, build commit, exact steps, and pass/fail. Never replace this evidence with build or archive-inspection results.
+**Runtime acceptance is incomplete; testing was stopped at the owner's request on 2026-09-14.** The first real emulator run (`34813419597`, commit `756113c`) passed the API 35 reopen/recreate/rotation smoke but failed four IME-visibility checks; API 23 activation failed. Follow-up test synchronization and diagnostics were published, but no passing full matrix was established before stopping. See `HANDOFF.md`; do not automatically resume tests.
+
+Before stopping, the current code passed local debug build, 13 JVM tests (8 editor-policy and 5 layout tests), Android lint and compilation of the separate instrumentation APK. This is not equivalent to passing those instrumented tests. Record future runtime results with date, device/API, build commit, exact steps, and pass/fail.
 
 ## Source checks: executable now
 
@@ -8,7 +10,7 @@ All Android runtime checks below are **not run**. The recovered project has pass
 bash ./gradlew :app:assembleDebug :app:testDebugUnitTest :app:lintDebug :app:assembleRelease
 ```
 
-Use `gradlew.bat` on Windows. SDK setup and special-host flags are in `BUILDING.md`. See `RECOVERY.md` for the independent 24-state layout comparison and signing checks. No connected Android tests have run.
+Use `gradlew.bat` on Windows. SDK setup and special-host flags are in `BUILDING.md`. See `RECOVERY.md` for the independent 24-state layout comparison and signing checks. `tools/run-ime-smoke.sh` runs the existing instrumentation suite and changes the selected IME: use it only on a disposable test device/profile, after owner approval to resume.
 
 ## Reference archive: executable now
 

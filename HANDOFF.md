@@ -2,6 +2,16 @@
 
 Updated: 2026-09-14. Recovery milestone: `1.0.1-recovered` / versionCode `2`.
 
+## Owner stopped verification
+
+- On 2026-09-14 the owner explicitly requested stopping further analysis/testing to conserve credit and publishing the current work. Do not resume device tests automatically.
+- All source fixes and test infrastructure were published incrementally to `main`; latest source/test commit before this handoff is `f547ea6`.
+- The current debug APK was built successfully before the stop request and supplied separately to the owner. It is debug-signed, not release-signed, and cannot be assumed to update the original installation.
+- Local debug build, 13 JVM tests, lint and test-APK compilation passed before stopping. No further checks were run after the stop request. Active GitHub checks were sent cancellation requests.
+- **Stage-one runtime acceptance is NOT complete.** The first API 35 run passed the reopen/recreate/rotation smoke but failed four visibility checks; API 23 activation failed. Later runs did not establish a passing matrix before the owner stopped verification. Do not label this app fully device-validated or leak-free.
+- Remaining review items: joined-emoji deletion currently deletes one code point on API 24+; raw-key-only `TYPE_NULL` editors need compatibility validation; no heap/battery/TalkBack or physical-device verification is claimed. Email/URI use the existing Latin layout with `@` on the symbols page, not a new dedicated field layout.
+- No network permission, typed-text storage or future processing feature was added. The Kotlin password/incognito policy remains unchanged and must gate every future processing entry point.
+
 ## Ready to continue
 
 - This repository now contains a buildable Android Studio/Gradle project. **Do not ask for source or repeat APK recovery. Start in `app/src/`.**
@@ -41,7 +51,5 @@ Updated: 2026-09-14. Recovery milestone: `1.0.1-recovered` / versionCode `2`.
 
 ## Next small task
 
-1. Read `AGENTS.md`, `docs/ARCHITECTURE.md` and `docs/BUILDING.md`; run the standard build/tests unchanged.
-2. Perform the Android core/sensitive-field smoke matrix in `docs/TESTING.md`, record device/API and real outcomes, and fix the first reproducible issue.
-3. Prioritize a dedicated number/phone layout or local suggestions after runtime baseline validation; follow `docs/ROADMAP.md`, one focused change at a time.
-4. Update this file and `CHANGELOG.md`, preserve source, and provide actual test results with every handoff.
+1. Wait for the owner's APK installation feedback or explicit approval to resume validation.
+2. If approved, inspect the saved runtime reports and finish the existing matrix before adding features. Preserve the current Java/Kotlin split and privacy policy.

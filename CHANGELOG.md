@@ -2,6 +2,7 @@
 
 ## Unreleased - Stage-one verification (2026-09-14)
 
+- Owner stopped further testing to conserve credit; publish the existing debug APK and current source without claiming completed runtime acceptance. Remaining compatibility checks are recorded in `HANDOFF.md`.
 - Harden emulator IME registration/selection and activity-focus synchronization after the first real run; preserve failure screenshots and diagnostics. API 35 lifecycle smoke passed, but the complete runtime matrix is not yet passing.
 - Label the existing Previous editor action correctly in Arabic/English instead of displaying a misleading newline symbol.
 - Stop repeat-delete when its initiating finger lifts during a two-finger press; suppress an unintended final release deletion.
