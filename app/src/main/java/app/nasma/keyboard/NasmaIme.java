@@ -12,7 +12,6 @@ import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
 import android.view.Gravity;
-import android.view.HapticFeedbackConstants;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -83,6 +82,7 @@ public final class NasmaIme extends InputMethodService {
                 button.setTextSize(key.startsWith("{") ? 13 : arabic ? 21 : 19);
                 button.setTextDirection(View.TEXT_DIRECTION_LOCALE);
                 button.setSoundEffectsEnabled(false);
+                button.setHapticFeedbackEnabled(false);
                 button.setStateListAnimator(null);
                 button.setSingleLine(true);
                 button.setTag(key);
@@ -92,7 +92,6 @@ public final class NasmaIme extends InputMethodService {
                 if (LANG.equals(key)) button.setContentDescription(getString(R.string.language_description));
                 button.setOnClickListener(view -> {
                     if (BACK.equals(key) && repeated) { repeated = false; return; }
-                    view.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP);
                     press(key);
                 });
                 if (SPACE.equals(key) || LANG.equals(key)) {
