@@ -2,6 +2,7 @@
 
 ## Unreleased - Stage-one verification (2026-09-14)
 
+- Add a separate test APK and real-IME emulator workflow for API 23/35: bilingual typing, Shift/Caps, symbols/diacritics, deletion, field routing/actions, sensitive fields, reopening and rotation. Runtime results pending.
 - Keep the deliberately pinned target SDK 35 age advisory informational so CI can validate the recovered baseline without an untested SDK migration. Other lint warnings still fail the build.
 - Re-run debug build, 13 JVM tests and lint successfully on the documented ARM64/NFS host setup. Android runtime validation remains pending.
 
