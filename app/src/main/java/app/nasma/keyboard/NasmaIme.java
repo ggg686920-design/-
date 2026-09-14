@@ -28,6 +28,7 @@ public final class NasmaIme extends InputMethodService {
     private boolean arabic = true;
     private boolean dark, repeated, secondPage;
     private int mode, shift;
+    private int deletePointer = -1;
     private Button heldDelete;
     private LinearLayout keyboard;
     private final Handler handler = new Handler(Looper.getMainLooper());
@@ -104,7 +105,13 @@ public final class NasmaIme extends InputMethodService {
                     switch (event.getActionMasked()) {
                         case MotionEvent.ACTION_DOWN:
                             stopRepeat(); repeated = false; heldDelete = button;
+                            deletePointer = event.getPointerId(0);
                             handler.postDelayed(repeatDelete, 400); break;
+                        case MotionEvent.ACTION_POINTER_UP:
+                            if (event.getPointerId(event.getActionIndex()) == deletePointer) {
+                                stopRepeat(); repeated = true;
+                            }
+                            break;
                         case MotionEvent.ACTION_CANCEL:
                             repeated = false; stopRepeat(); break;
                         case MotionEvent.ACTION_UP:
@@ -213,7 +220,7 @@ public final class NasmaIme extends InputMethodService {
         else connection.commitText("\n", 1);
     }
 
-    private void stopRepeat() { handler.removeCallbacks(repeatDelete); heldDelete = null; }
+    private void stopRepeat() { handler.removeCallbacks(repeatDelete); heldDelete = null; deletePointer = -1; }
     private int color(String value) { return Color.parseColor(value); }
     private int dp(float value) { return Math.round(value * getResources().getDisplayMetrics().density); }
 

@@ -64,4 +64,30 @@ class ImeViewTest {
         assertFalse("Unbound service retained pending repeat callback", handler.hasMessages(0))
         assertNull("Unbound service retained held button", held.get(ime))
     }
+
+    @Test fun liftingInitiatingPointerCancelsDeleteWithAnotherFingerDown() = withView { ime, root ->
+        val delete = buttons(root).single { it.tag == KeyLayout.BACK }
+        val time = SystemClock.uptimeMillis()
+        fun touch(action: Int, vararg ids: Int) {
+            val properties = ids.map { id -> MotionEvent.PointerProperties().apply { this.id = id } }.toTypedArray()
+            val coordinates = ids.map { MotionEvent.PointerCoords().apply {
+                x = 5f; y = 5f; pressure = 1f; size = 1f
+            } }.toTypedArray()
+            val event = MotionEvent.obtain(time, SystemClock.uptimeMillis(), action, ids.size,
+                properties, coordinates, 0, 0, 1f, 1f, 0, 0, 0, 0)
+            try { delete.dispatchTouchEvent(event) } finally { event.recycle() }
+        }
+        val handler = NasmaIme::class.java.getDeclaredField("handler")
+            .apply { isAccessible = true }.get(ime) as Handler
+        touch(MotionEvent.ACTION_DOWN, 0)
+        touch(MotionEvent.ACTION_POINTER_DOWN or (1 shl MotionEvent.ACTION_POINTER_INDEX_SHIFT), 0, 1)
+        assertTrue(handler.hasMessages(0))
+        touch(MotionEvent.ACTION_POINTER_UP, 0, 1)
+        assertFalse("Repeat survived initiating pointer release", handler.hasMessages(0))
+        assertNull(NasmaIme::class.java.getDeclaredField("heldDelete")
+            .apply { isAccessible = true }.get(ime))
+        assertTrue("Final release must not trigger an extra delete", NasmaIme::class.java
+            .getDeclaredField("repeated").apply { isAccessible = true }.getBoolean(ime))
+        touch(MotionEvent.ACTION_UP, 1)
+    }
 }

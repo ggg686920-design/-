@@ -22,6 +22,7 @@ Updated: 2026-09-14. Recovery milestone: `1.0.1-recovered` / versionCode `2`.
 
 ## Current behavior and limitations
 
+- Track the initiating delete pointer and cancel repetition when it lifts, even if another finger stays on the same key. Added a two-pointer native MotionEvent regression; system-bound hold/release remains in the smoke matrix.
 - Close a repeat-delete cleanup gap in `onUnbindInput`; a native-view regression checks the Handler queue and held-button reference. This is lifecycle hardening, not a measured claim of zero memory leaks.
 - Removed recovered tap haptics and disabled framework long-press haptics on all IME keys, as required for this stage. Added native-view regression coverage; physical vibration is not measurable on the emulator.
 - Arabic/English, symbols, extra Arabic characters/diacritics, Shift/Caps, editor-action Enter, repeat-delete, language preference and system light/dark keyboard colors are reconstructed.
