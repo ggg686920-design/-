@@ -1,0 +1,31 @@
+# Android and local tooling
+.gradle/
+.kotlin/
+**/build/
+local.properties
+.idea/
+*.iml
+.DS_Store
+__pycache__/
+*.pyc
+
+# Private keys and local configuration: never publish
+*.jks
+*.keystore
+*.p12
+*.pfx
+*.pem
+key.properties
+keystore.properties
+signing.properties
+.env
+.env.*
+secrets.properties
+google-services.json
+credentials.json
+
+# Generated releases are not the preserved reference APK
+/releases/
+/downloads/
+*.aab
+# Do not ignore *.jar globally: the Gradle Wrapper JAR must be tracked.
