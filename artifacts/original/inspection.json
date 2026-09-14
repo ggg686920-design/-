@@ -1,0 +1,121 @@
+{
+  "file": "nasma-keyboard.apk",
+  "size_bytes": 25118,
+  "sha256": "b801b24a0694414830f47cfde3170a04672c361ab2ddcba2c70c1d0b5dd25895",
+  "zip_crc_valid": true,
+  "manifest_elements": [
+    {
+      "tag": "manifest",
+      "attributes": {
+        "versionCode": 1,
+        "versionName": "1.0",
+        "compileSdkVersion": 29,
+        "compileSdkVersionCodename": "10",
+        "package": "app.nasma.keyboard",
+        "platformBuildVersionCode": 29,
+        "platformBuildVersionName": 10
+      }
+    },
+    {
+      "tag": "uses-sdk",
+      "attributes": {
+        "minSdkVersion": 23,
+        "targetSdkVersion": 35
+      }
+    },
+    {
+      "tag": "application",
+      "attributes": {
+        "theme": "@0x7f030000",
+        "label": "@0x7f020000",
+        "icon": "@0x7f010000",
+        "allowBackup": false,
+        "supportsRtl": true,
+        "usesCleartextTraffic": false
+      }
+    },
+    {
+      "tag": "activity",
+      "attributes": {
+        "name": ".MainActivity",
+        "exported": true,
+        "windowSoftInputMode": 16
+      }
+    },
+    {
+      "tag": "intent-filter",
+      "attributes": {}
+    },
+    {
+      "tag": "action",
+      "attributes": {
+        "name": "android.intent.action.MAIN"
+      }
+    },
+    {
+      "tag": "category",
+      "attributes": {
+        "name": "android.intent.category.LAUNCHER"
+      }
+    },
+    {
+      "tag": "service",
+      "attributes": {
+        "label": "@0x7f020000",
+        "name": ".NasmaIme",
+        "permission": "android.permission.BIND_INPUT_METHOD",
+        "exported": true
+      }
+    },
+    {
+      "tag": "intent-filter",
+      "attributes": {}
+    },
+    {
+      "tag": "action",
+      "attributes": {
+        "name": "android.view.InputMethod"
+      }
+    },
+    {
+      "tag": "meta-data",
+      "attributes": {
+        "name": "android.view.im",
+        "resource": "@0x7f040000"
+      }
+    }
+  ],
+  "nasma_dex_class_descriptors": [
+    "Lapp/nasma/keyboard/KeyLayout;",
+    "Lapp/nasma/keyboard/MainActivity$$ExternalSyntheticLambda0;",
+    "Lapp/nasma/keyboard/MainActivity$$ExternalSyntheticLambda1;",
+    "Lapp/nasma/keyboard/MainActivity$$ExternalSyntheticLambda2;",
+    "Lapp/nasma/keyboard/MainActivity;",
+    "Lapp/nasma/keyboard/NasmaIme$$ExternalSyntheticLambda0;",
+    "Lapp/nasma/keyboard/NasmaIme$$ExternalSyntheticLambda1;",
+    "Lapp/nasma/keyboard/NasmaIme$$ExternalSyntheticLambda2;",
+    "Lapp/nasma/keyboard/NasmaIme$1;",
+    "Lapp/nasma/keyboard/NasmaIme;",
+    "Lapp/nasma/keyboard/R$drawable;",
+    "Lapp/nasma/keyboard/R$string;",
+    "Lapp/nasma/keyboard/R$style;",
+    "Lapp/nasma/keyboard/R$xml;",
+    "Lapp/nasma/keyboard/R;"
+  ],
+  "archive_entries": [
+    "AndroidManifest.xml",
+    "res/drawable/ic_keyboard.xml",
+    "res/xml/method.xml",
+    "resources.arsc",
+    "classes.dex",
+    "META-INF/NASMA.SF",
+    "META-INF/NASMA.RSA",
+    "META-INF/MANIFEST.MF"
+  ],
+  "limitations": [
+    "Static metadata only; the application was not installed or executed.",
+    "A signature file in META-INF is not proof that a signature is valid.",
+    "Resources referenced by ID are not resolved to labels or values.",
+    "DEX class names are not recovered source code or a verified applicationId."
+  ]
+}
