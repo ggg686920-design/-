@@ -1,5 +1,10 @@
 # Changelog
 
+## Unreleased - Stage-one verification (2026-09-14)
+
+- Keep the deliberately pinned target SDK 35 age advisory informational so CI can validate the recovered baseline without an untested SDK migration. Other lint warnings still fail the build.
+- Re-run debug build, 13 JVM tests and lint successfully on the documented ARM64/NFS host setup. Android runtime validation remains pending.
+
 ## 1.0.1-recovered (versionCode 2) - 2026-09-14
 
 - Restore a buildable native project from the owner's APK while preserving package identity, core layouts and visual design.

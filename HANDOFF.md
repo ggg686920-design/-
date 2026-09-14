@@ -11,6 +11,8 @@ Updated: 2026-09-14. Recovery milestone: `1.0.1-recovered` / versionCode `2`.
 
 ## Verified locally
 
+- Stage-one recheck (2026-09-14): debug build, 13 JVM tests and lint pass on ARM64 with the documented host flags. Standard invocation hits the documented NFS locking limitation.
+- Existing GitHub run `34809010121` failed only on `OldTargetApi`. That advisory is now informational (not hidden); all other lint warnings remain errors. SDK levels are unchanged. New CI/runtime results are pending.
 - JDK 17, Gradle 8.11.1, AGP 8.9.2, Kotlin 2.1.20, SDK/build-tools 35.
 - `:app:assembleDebug`, `:app:assembleRelease`, `:app:testDebugUnitTest`, and `:app:lintDebug` pass. Release output is unsigned by design. Lint: no warnings/errors; 13 JVM tests pass.
 - All 24 layout combinations and seven key weights match the decompiled original. The original and rebuilt debug APK signatures were checked with SDK `apksigner`.

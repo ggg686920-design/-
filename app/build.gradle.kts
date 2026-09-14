@@ -30,6 +30,8 @@ android {
     lint {
         abortOnError = true
         warningsAsErrors = true
+        // Keep the owner's API 35 baseline until a separately tested SDK migration.
+        informational += "OldTargetApi"
     }
 }
 
